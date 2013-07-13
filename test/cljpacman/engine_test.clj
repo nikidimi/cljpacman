@@ -89,6 +89,18 @@
     (is (map? (check-collisions game-state)))
     (is (true? (check-collisions new-game-state)))))
 
+(deftest do-check-collisions-collect-coin-test
+  (let [level (read-level "../test/levels/level1")
+        field (get level :field)
+        game-state (generate-state level)
+        coins (get game-state :coins)
+        player (get game-state :player)
+        new-player-state (assoc player :position [200 80])
+        new-game-state (assoc (assoc game-state :player new-player-state) :coins [(last coins)])]
+    (is (map? (check-collisions game-state)))
+    (is (true? (check-collisions (check-collisions new-game-state))))))
+
+
 
 (deftest do-move-test
   (let [level (read-level "../test/levels/level1")
